@@ -1,0 +1,6 @@
+r
+halt
+loadfile "@HEX_FILE_PATH@"
+r
+go
+exit
