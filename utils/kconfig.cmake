@@ -6,12 +6,15 @@
 # @param[in, optional] OUTPUT_DIRECTORY (single value) config.cmake output folder.
 # @param[in, optional] NOT_INCLUDE (options) only generate config.cmake, not include it.
 #
-function(kconfig_include CONFIG_FILE)
+macro(kconfig_include _config_file)
+
+    set(VA_LI "${ARGN}")
+    set(CONFIG_FILE "${_config_file}")
 
     set(options NOT_INCLUDE)
     set(oneValueArgs OUTPUT_DIRECTORY)
     set(multiValueArgs)
-    cmake_parse_arguments(_ "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+    cmake_parse_arguments(_ "${options}" "${oneValueArgs}" "${multiValueArgs}" ${VA_LI})
 
     if("${CONFIG_FILE}_" STREQUAL "_")
         set(CONFIG_FILE "${CMAKE_CURRENT_LIST_DIR}/.config")
@@ -44,4 +47,4 @@ function(kconfig_include CONFIG_FILE)
         include("${__OUTPUT_DIRECTORY}/config.cmake")
     endif()
 
-endfunction()
+endmacro()
