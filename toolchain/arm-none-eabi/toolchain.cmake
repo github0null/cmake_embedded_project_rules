@@ -24,7 +24,7 @@ set(CMAKE_EXECUTABLE_SUFFIX_ASM .elf)
 #set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 set(CMAKE_C_FLAGS   "${MCPU_FLAGS} ${VFP_FLAGS} -fdata-sections -ffunction-sections" CACHE INTERNAL "c compiler flags")
-set(CMAKE_CXX_FLAGS "${MCPU_FLAGS} ${VFP_FLAGS} -fdata-sections -ffunction-sections -fno-rtti -fno-exceptions" CACHE INTERNAL "cxx compiler flags")
+set(CMAKE_CXX_FLAGS "${MCPU_FLAGS} ${VFP_FLAGS} -fdata-sections -ffunction-sections" CACHE INTERNAL "cxx compiler flags")
 set(CMAKE_ASM_FLAGS "${MCPU_FLAGS} ${VFP_FLAGS} -x assembler-with-cpp" CACHE INTERNAL "asm compiler flags")
 set(CMAKE_EXE_LINKER_FLAGS "${MCPU_FLAGS} ${LD_FLAGS} ${SPEC_FLAGS} -Wl,--gc-sections -Wl,--print-memory-usage" CACHE INTERNAL "exe link flags")
 
@@ -46,4 +46,18 @@ function(output_binary_files target_name)
         COMMAND ${CMAKE_OBJCOPY} -O binary "${target_name}.elf" "${target_name}.bin"
         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
         VERBATIM)
+endfunction()
+
+function(check_compiler_version min_version_required)
+    message(CHECK_START "Checking compiler version")
+    if(DEFINED CMAKE_C_COMPILER_VERSION)
+        if(CMAKE_C_COMPILER_VERSION VERSION_LESS min_version_required)
+            message(CHECK_FAIL "failed")
+            message(FATAL_ERROR "Current compiler version is '${CMAKE_C_COMPILER_VERSION}', but we need '${min_version_required}' !!!")
+        else()
+            message(CHECK_PASS "'${CMAKE_C_COMPILER_ID} ${CMAKE_C_COMPILER_VERSION}'")
+        endif()
+    else()
+        message(CHECK_FAIL "Skipped, variable 'CMAKE_C_COMPILER_VERSION' is undefined !")
+    endif()
 endfunction()
