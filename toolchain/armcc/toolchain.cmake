@@ -1,4 +1,5 @@
 # Toolchain settings
+#   you can use 'LIST(APPEND CMAKE_PROGRAM_PATH "./xx/xx/path") setup compiler path
 if(CMAKE_HOST_WIN32)
     if("${TOOLCHAIN_DIR}_" STREQUAL "_")
         message(CHECK_START "Find armcc.exe from system path")
@@ -44,14 +45,14 @@ set(CMAKE_EXECUTABLE_SUFFIX_ASM .axf)
 #set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 if(USE_MICRO_LIB)
-    set(CMAKE_C_FLAGS   "-c --apcs=interwork ${MCPU_FLAGS} ${VFP_FLAGS} -D__MICROLIB --c99 --split_sections --diag_suppress=1 --diag_suppress=1295" CACHE INTERNAL "c compiler flags")
-    set(CMAKE_CXX_FLAGS "-c --cpp --apcs=interwork ${MCPU_FLAGS} ${VFP_FLAGS} -D__MICROLIB --split_sections --diag_suppress=1 --diag_suppress=1295" CACHE INTERNAL "cxx compiler flags")
-    set(CMAKE_ASM_FLAGS "--apcs=interwork ${MCPU_FLAGS} ${VFP_FLAGS} --pd \"__MICROLIB SETA 1\"" CACHE INTERNAL "asm compiler flags")
+    set(CMAKE_C_FLAGS   "-c --apcs=interwork ${MCPU_FLAGS} ${VFPU_FLAGS} -D__MICROLIB --c99 --split_sections --diag_suppress=1 --diag_suppress=1295" CACHE INTERNAL "c compiler flags")
+    set(CMAKE_CXX_FLAGS "-c --cpp --apcs=interwork ${MCPU_FLAGS} ${VFPU_FLAGS} -D__MICROLIB --split_sections --diag_suppress=1 --diag_suppress=1295" CACHE INTERNAL "cxx compiler flags")
+    set(CMAKE_ASM_FLAGS "--apcs=interwork ${MCPU_FLAGS} ${VFPU_FLAGS} --pd \"__MICROLIB SETA 1\"" CACHE INTERNAL "asm compiler flags")
     set(CMAKE_EXE_LINKER_FLAGS "${MCPU_FLAGS} --library_type=microlib --strict --summary_stderr --info summarysizes --map --xref --callgraph --symbols --info sizes --info totals --info unused --info veneers" CACHE INTERNAL "exe link flags")
 else()
-    set(CMAKE_C_FLAGS   "-c --apcs=interwork ${MCPU_FLAGS} ${VFP_FLAGS} --c99 --split_sections --diag_suppress=1 --diag_suppress=1295" CACHE INTERNAL "c compiler flags")
-    set(CMAKE_CXX_FLAGS "-c --cpp --apcs=interwork ${MCPU_FLAGS} ${VFP_FLAGS} --split_sections --diag_suppress=1 --diag_suppress=1295" CACHE INTERNAL "cxx compiler flags")
-    set(CMAKE_ASM_FLAGS "--apcs=interwork ${MCPU_FLAGS} ${VFP_FLAGS}" CACHE INTERNAL "asm compiler flags")
+    set(CMAKE_C_FLAGS   "-c --apcs=interwork ${MCPU_FLAGS} ${VFPU_FLAGS} --c99 --split_sections --diag_suppress=1 --diag_suppress=1295" CACHE INTERNAL "c compiler flags")
+    set(CMAKE_CXX_FLAGS "-c --cpp --apcs=interwork ${MCPU_FLAGS} ${VFPU_FLAGS} --split_sections --diag_suppress=1 --diag_suppress=1295" CACHE INTERNAL "cxx compiler flags")
+    set(CMAKE_ASM_FLAGS "--apcs=interwork ${MCPU_FLAGS} ${VFPU_FLAGS}" CACHE INTERNAL "asm compiler flags")
     set(CMAKE_EXE_LINKER_FLAGS "${MCPU_FLAGS} --strict --summary_stderr --info summarysizes --map --xref --callgraph --symbols --info sizes --info totals --info unused --info veneers" CACHE INTERNAL "exe link flags")
 endif()
 

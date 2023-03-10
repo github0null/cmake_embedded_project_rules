@@ -1,8 +1,8 @@
 # Name of the target
 set(CMAKE_SYSTEM_NAME Generic)
-set(CMAKE_SYSTEM_PROCESSOR cortex-m0plus)
+set(CMAKE_SYSTEM_PROCESSOR ck804ef)
 
-set(MCPU_FLAGS "--cpu Cortex-M0+")
-set(VFPU_FLAGS "")
+set(MCPU_FLAGS "-mcpu=ck804ef")
+set(VFPU_FLAGS "-mhard-float")
 
 include(${CMAKE_CURRENT_LIST_DIR}/toolchain.cmake)
