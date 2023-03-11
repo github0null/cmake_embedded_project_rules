@@ -6,6 +6,7 @@
 # @param[in, optional] OUTPUT_DIRECTORY (single value) config.cmake output folder.
 # @param[in, optional] NOT_INCLUDE (options) only generate config.cmake, not include it.
 # @param[in, optional] OUTPUT_HEADER_NAME xxx.h name
+# @param[in, optional] OUTPUT_CONF_NAME xxx.cmake name for output
 #
 macro(kconfig_include _config_file)
 
@@ -13,7 +14,7 @@ macro(kconfig_include _config_file)
     set(CONFIG_FILE "${_config_file}")
 
     set(options NOT_INCLUDE)
-    set(oneValueArgs OUTPUT_DIRECTORY OUTPUT_HEADER_NAME)
+    set(oneValueArgs OUTPUT_DIRECTORY OUTPUT_HEADER_NAME OUTPUT_CONF_NAME)
     set(multiValueArgs)
     cmake_parse_arguments(_ "${options}" "${oneValueArgs}" "${multiValueArgs}" ${VA_LI})
 
@@ -25,11 +26,15 @@ macro(kconfig_include _config_file)
         set(__OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
     endif()
 
+    if("${__OUTPUT_CONF_NAME}_" STREQUAL "_")
+        set(__OUTPUT_CONF_NAME "config")
+    endif()
+
     file(READ "${CONFIG_FILE}" _kconfig_cont)
     string(REPLACE "\n" ";" _kconfig_list ${_kconfig_cont})
 
     # output cmake config
-    set(_cmake_cfg_path "${__OUTPUT_DIRECTORY}/config.cmake")
+    set(_cmake_cfg_path "${__OUTPUT_DIRECTORY}/${__OUTPUT_CONF_NAME}.cmake")
     file(WRITE "${_cmake_cfg_path}" "#\n# generated from '${CONFIG_FILE}'\n#\n")
     foreach(_cfg_expr ${_kconfig_list})
         if(${_cfg_expr} MATCHES "^[ ]*#")
@@ -55,8 +60,8 @@ macro(kconfig_include _config_file)
     endif()
 
     if(NOT __NOT_INCLUDE)
-        message(STATUS "Include kconfig: '${__OUTPUT_DIRECTORY}/config.cmake'")
-        include("${__OUTPUT_DIRECTORY}/config.cmake")
+        message(STATUS "Include kconfig: '${__OUTPUT_DIRECTORY}/${__OUTPUT_CONF_NAME}.cmake'")
+        include("${__OUTPUT_DIRECTORY}/${__OUTPUT_CONF_NAME}.cmake")
     endif()
 
 endmacro()
