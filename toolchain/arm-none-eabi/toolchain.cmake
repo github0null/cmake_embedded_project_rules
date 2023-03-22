@@ -26,7 +26,7 @@ set(CMAKE_EXECUTABLE_SUFFIX_ASM .elf)
 set(CMAKE_C_FLAGS   "${MCPU_FLAGS} ${VFPU_FLAGS} -fdata-sections -ffunction-sections" CACHE INTERNAL "c compiler flags")
 set(CMAKE_CXX_FLAGS "${MCPU_FLAGS} ${VFPU_FLAGS} -fdata-sections -ffunction-sections" CACHE INTERNAL "cxx compiler flags")
 set(CMAKE_ASM_FLAGS "${MCPU_FLAGS} ${VFPU_FLAGS} -x assembler-with-cpp" CACHE INTERNAL "asm compiler flags")
-set(CMAKE_EXE_LINKER_FLAGS "${MCPU_FLAGS} ${LD_FLAGS} ${SPEC_FLAGS} -Wl,--gc-sections -Wl,--print-memory-usage" CACHE INTERNAL "exe link flags")
+set(CMAKE_EXE_LINKER_FLAGS "${MCPU_FLAGS} ${VFPU_FLAGS} ${LD_FLAGS} ${SPEC_FLAGS} -Wl,--gc-sections -Wl,--print-memory-usage" CACHE INTERNAL "exe link flags")
 
 SET(CMAKE_C_FLAGS_DEBUG "-Og -g -ggdb3" CACHE INTERNAL "c debug compiler flags")
 SET(CMAKE_CXX_FLAGS_DEBUG "-Og -g -ggdb3" CACHE INTERNAL "cxx debug compiler flags")
